@@ -18,8 +18,6 @@ def fformat(oringUrl, destinyUrl):
     regex = r"/"
     if re.match(regex, oringUrl) == None:
         oringUrl = "/"+oringUrl
-    #####################################
-    #
     #Evaluates if the line is a query : ?
     if str(oringUrl.find("?")) != "-1":
         #Split the String to make up the special rule.
@@ -46,8 +44,6 @@ def convertCSV(fileToFormat):
             line[1] = line[1].strip()
             print ("line1"+str(line[1]))
             fformat(line[0],line[1])
-    #Test added only for testing porpuses.
-    subprocess.Popen("echo \"------ New Test -----\" >> rules-formatted.inc", shell=True)
     print ("CSV file formatted")
     print ("The rules were generated in the file: rules-formatted.inc")
     pass
@@ -61,7 +57,6 @@ def convertTXT(fileToFormat):
             urls[0] = urls[0].strip()
             urls[1] = urls[1].strip()
             fformat(urls[0],urls[1])
-    subprocess.Popen("echo \"------ New Test -----\" >> rules-formatted.inc", shell=True)
     print ("TXT file formatted")
     print ("The rules generated in the file: rules-formatted.inc")
     pass
@@ -85,7 +80,6 @@ else:
         exit()
     elif str(fileToFormat).lower().endswith('.txt'):
         print ("Formatting the TXT file...")
-        ##NEXT FEATURE
         convertTXT(str(fileToFormat))
         exit()
     else:
