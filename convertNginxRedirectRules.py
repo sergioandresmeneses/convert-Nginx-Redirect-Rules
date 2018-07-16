@@ -11,7 +11,7 @@ def fformat(oringUrl, destinyUrl):
     #regex validations to make the script compatible with most formats of the origin URL
     #Evaluates if the url has HTTP included
     #HTTPS support soon
-    regex = r"^http://(.*)\/"
+    regex = r"^(http|https)://(.*).com\/"
     if re.search(regex, oringUrl):
         oringUrl = re.sub(regex, "/", oringUrl)
     #Evaluates if the url begings with / and add it in case of not including it
@@ -22,14 +22,14 @@ def fformat(oringUrl, destinyUrl):
     if str(oringUrl.find("?")) != "-1":
         #Split the String to make up the special rule.
         OrigUrlBefore,OrigUrlAfter = oringUrl.split("?")
-        subprocess.Popen("echo \" if ( \$query_string ~ '"+OrigUrlAfter+"' ) { rewrite '^"+OrigUrlBefore+"/?$' "+str(destinyUrl)+"? permanent; } \" >> rules-formatted.inc", shell=True)
+        subprocess.Popen("echo \" if ( \$query_string ~ '"+OrigUrlAfter+"' ) { rewrite '^"+OrigUrlBefore+"?$' "+str(destinyUrl)+"? permanent; } \" >> rules-formatted.inc", shell=True)
         return
     #Evaluates if the line is HTML Trash : ?
     elif str(oringUrl.find("%")) != "-1":
-        subprocess.Popen("echo \" if ( \$request_uri ~* '^"+str(oringUrl)+"/?$' ) { rewrite . "+str(destinyUrl)+" permanent; } \" >> rules-formatted.inc", shell=True)
+        subprocess.Popen("echo \" if ( \$request_uri ~* '^"+str(oringUrl)+"?$' ) { rewrite . "+str(destinyUrl)+" permanent; } \" >> rules-formatted.inc", shell=True)
         return
     #Formats the rules in the default value.
-    subprocess.Popen("echo \"rewrite '^"+str(oringUrl)+"/?$' "+str(destinyUrl)+" permanent;\" >> rules-formatted.inc", shell=True)
+    subprocess.Popen("echo \"rewrite '^"+str(oringUrl)+"?$' "+str(destinyUrl)+" permanent;\" >> rules-formatted.inc", shell=True)
     pass
 
 def convertCSV(fileToFormat):
